@@ -329,6 +329,31 @@ header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;he
 .update-banner .ub-btn{flex-shrink:0;background:white;color:var(--plum);border:none;border-radius:8px;padding:7px 12px;font-size:.75rem;font-weight:600;cursor:pointer;transition:opacity .15s;}
 .update-banner .ub-btn:active{opacity:.85;}
 .update-banner .ub-close{background:none;border:none;color:rgba(255,255,255,.6);font-size:1.1rem;cursor:pointer;padding:0 0 0 4px;flex-shrink:0;}
+/* ── UPDATE CHECK CARD ── */
+.update-check-card{background:white;border-radius:16px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;}
+.uc-info{display:flex;align-items:center;gap:12px;}
+.uc-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--plum-deep),var(--rose));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.uc-title{font-size:.88rem;font-weight:500;color:var(--text);}
+.uc-ver{font-size:.72rem;color:var(--text-muted);margin-top:2px;}
+.uc-status{font-size:.72rem;margin-top:3px;color:var(--text-muted);}
+.uc-status.ok{color:#27ae60;}
+.uc-status.checking{color:var(--ovulation);}
+.uc-status.found{color:var(--rose);}
+.uc-btn{width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--border);background:var(--warm-white);color:var(--plum);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;-webkit-appearance:none;}
+.uc-btn:active{transform:scale(.97);}
+.uc-btn.checking{border-color:var(--ovulation);color:var(--ovulation);}
+.uc-btn.up-to-date{border-color:#27ae60;color:#27ae60;background:#f0fff4;}
+.uc-btn:disabled{opacity:.6;cursor:not-allowed;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinning{display:inline-block;animation:spin .8s linear infinite;}
+.uc-found{background:linear-gradient(135deg,var(--plum-deep),var(--plum));border-radius:12px;padding:14px;}
+.uc-found-text{display:flex;align-items:center;gap:10px;margin-bottom:10px;color:white;}
+.uc-found-text span{font-size:1.5rem;flex-shrink:0;}
+.uc-found-text b{font-size:.85rem;display:block;}
+.uc-found-text p{font-size:.72rem;opacity:.8;margin-top:2px;}
+.uc-apply-btn{width:100%;padding:11px;border-radius:10px;border:none;background:white;color:var(--plum);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:opacity .15s;}
+.uc-apply-btn:active{opacity:.85;}
+.uc-hint{font-size:.7rem;color:var(--text-muted);text-align:center;line-height:1.5;}
 </style>
 </head>
 <body>
@@ -558,6 +583,34 @@ header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;he
         </div>
         <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
         <div class="bk-info">💡 Data utama tersimpan di server Supabase (cloud). Export JSON sebagai backup tambahan.</div>
+      </div>
+    </div>
+    <!-- UPDATE APLIKASI -->
+    <div class="sec" style="margin-bottom:20px">
+      <div class="sec-title">🔄 Pembaruan Aplikasi</div>
+      <div class="update-check-card">
+        <div class="uc-info">
+          <div class="uc-icon">📱</div>
+          <div>
+            <div class="uc-title">SiklusKu</div>
+            <div class="uc-ver" id="ucVerLabel">Versi saat ini: v3</div>
+            <div class="uc-status" id="ucStatus">Belum dicek</div>
+          </div>
+        </div>
+        <button class="uc-btn" id="ucBtn" onclick="checkForUpdate()">
+          <span id="ucBtnIcon">🔄</span> Cek Pembaruan
+        </button>
+        <div class="uc-found" id="ucFound" style="display:none">
+          <div class="uc-found-text">
+            <span>🆕</span>
+            <div>
+              <b>Pembaruan tersedia!</b>
+              <p>Versi baru SiklusKu sudah siap</p>
+            </div>
+          </div>
+          <button class="uc-apply-btn" onclick="applyUpdate()">Perbarui Sekarang</button>
+        </div>
+        <div class="uc-hint">Aplikasi juga akan memberitahu Anda otomatis saat ada pembaruan baru.</div>
       </div>
     </div>
   </div>
@@ -1535,6 +1588,96 @@ function renderCharts(){
       }
     });
   }
+}
+
+// ==================== MANUAL UPDATE CHECK ====================
+async function checkForUpdate(){
+  const btn = document.getElementById('ucBtn');
+  const btnIcon = document.getElementById('ucBtnIcon');
+  const status = document.getElementById('ucStatus');
+  const ucFound = document.getElementById('ucFound');
+
+  if(!('serviceWorker' in navigator)){
+    showToast('⚠️ Browser tidak mendukung pembaruan otomatis');
+    return;
+  }
+
+  // Tampilkan loading state
+  btn.disabled = true;
+  btn.classList.add('checking');
+  btnIcon.className = 'spinning';
+  btnIcon.textContent = '🔄';
+  status.textContent = 'Sedang memeriksa...';
+  status.className = 'uc-status checking';
+  ucFound.style.display = 'none';
+
+  try {
+    const reg = await navigator.serviceWorker.getRegistration();
+    if(!reg){
+      setUpdateStatus('Tidak ada service worker aktif', 'uc-status');
+      resetUpdateBtn();
+      return;
+    }
+
+    // Paksa cek update ke server
+    await reg.update();
+
+    // Tunggu sebentar untuk deteksi
+    await new Promise(r => setTimeout(r, 2000));
+
+    if(reg.waiting){
+      // Ada SW baru menunggu
+      window._pendingSW = reg.waiting;
+      status.textContent = 'Pembaruan ditemukan!';
+      status.className = 'uc-status found';
+      btn.style.display = 'none';
+      ucFound.style.display = 'block';
+    } else if(reg.installing){
+      // SW sedang diinstall
+      status.textContent = 'Mengunduh pembaruan...';
+      status.className = 'uc-status checking';
+      reg.installing.addEventListener('statechange', function(){
+        if(this.state === 'installed'){
+          window._pendingSW = this;
+          status.textContent = 'Pembaruan siap!';
+          status.className = 'uc-status found';
+          btn.style.display = 'none';
+          ucFound.style.display = 'block';
+        }
+      });
+    } else {
+      // Sudah versi terbaru
+      status.textContent = '✓ Aplikasi sudah versi terbaru';
+      status.className = 'uc-status ok';
+      btn.classList.remove('checking');
+      btn.classList.add('up-to-date');
+      btnIcon.className = '';
+      btnIcon.textContent = '✅';
+      btn.disabled = false;
+      // Reset tombol setelah 3 detik
+      setTimeout(()=>{
+        btn.classList.remove('up-to-date');
+        btnIcon.textContent = '🔄';
+        status.textContent = 'Terakhir dicek: baru saja';
+        status.className = 'uc-status ok';
+        btn.disabled = false;
+      }, 3000);
+    }
+  } catch(e) {
+    console.error('Update check error:', e);
+    status.textContent = 'Gagal memeriksa — cek koneksi internet';
+    status.className = 'uc-status';
+    resetUpdateBtn();
+  }
+}
+
+function resetUpdateBtn(){
+  const btn = document.getElementById('ucBtn');
+  const btnIcon = document.getElementById('ucBtnIcon');
+  btn.classList.remove('checking','up-to-date');
+  btn.disabled = false;
+  btnIcon.className = '';
+  btnIcon.textContent = '🔄';
 }
 
 // ==================== UPDATE BANNER ====================

@@ -1,7 +1,7 @@
 # SiklusKu
 🌸 SiklusKu adalah Progressive Web App (PWA) untuk monitoring siklus haid yang bisa diinstall langsung di HP tanpa Play Store atau App Store.
 
-✨ Fitur: <br
+✨ Fitur: <br>
 • 📅 Kalender siklus dengan prediksi haid & masa subur <br>
 • 🚨 Peringatan otomatis saat haid terlambat <br>
 • 📊 Statistik & riwayat siklus bulanan <br>

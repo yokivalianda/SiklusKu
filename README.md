@@ -1,17 +1,16 @@
 # SiklusKu
 🌸 SiklusKu adalah Progressive Web App (PWA) untuk monitoring siklus haid yang bisa diinstall langsung di HP tanpa Play Store atau App Store.
 
-✨ Fitur:
-• 📅 Kalender siklus dengan prediksi haid & masa subur
-• 🚨 Peringatan otomatis saat haid terlambat
-• 📊 Statistik & riwayat siklus bulanan
-• 🔐 Login dengan Email atau Google (Supabase Auth)
-• ☁️ Data tersimpan aman di cloud (Supabase PostgreSQL)
-• 📲 Installable PWA — bekerja offline
+✨ Fitur: <br
+• 📅 Kalender siklus dengan prediksi haid & masa subur <br>
+• 🚨 Peringatan otomatis saat haid terlambat <br>
+• 📊 Statistik & riwayat siklus bulanan <br>
+• 🔐 Login dengan Email atau Google (Supabase Auth) <br>
+• ☁️ Data tersimpan aman di cloud (Supabase PostgreSQL) <br>
+• 📲 Installable PWA — bekerja offline <br>
 • 🔔 Push notification via Service Worker
-
+<br>
 🛠️ Tech Stack: HTML · CSS · Vanilla JS · Supabase · Netlify
-
-🌐: https://siklusku.netlify.app
-
-Dibuat oleh Yoki Valianda © 2026
+<br><br>
+🌐 Link Akses Aplikasi: https://siklusku.netlify.app
+<br><br>

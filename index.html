@@ -16,6 +16,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <!-- Supabase JS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 :root{
   --rose:#c9607a;--rose-light:#f2d4da;--rose-pale:#fdf0f2;
@@ -286,6 +288,38 @@ header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;he
 .credit span{color:var(--rose);font-weight:500;}
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--plum-deep);color:white;padding:10px 22px;border-radius:20px;font-size:.82rem;opacity:0;transition:opacity .3s;z-index:600;white-space:nowrap;pointer-events:none;box-shadow:0 4px 16px rgba(74,31,58,.3);}
 .toast.show{opacity:1;}
+/* ── ONBOARDING ── */
+#onboarding{position:fixed;inset:0;z-index:800;background:linear-gradient(160deg,var(--plum-deep),var(--plum) 50%,var(--rose));display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;overflow-y:auto;}
+#onboarding.show{display:flex;}
+.ob-card{background:white;border-radius:24px;width:100%;max-width:400px;overflow:hidden;box-shadow:0 20px 60px rgba(74,31,58,.3);animation:bounceIn .4s ease;}
+.ob-header{background:linear-gradient(135deg,var(--plum-deep),var(--plum),var(--rose));padding:28px 24px 20px;text-align:center;}
+.ob-header .ob-emoji{font-size:2.8rem;margin-bottom:10px;display:block;}
+.ob-header h2{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:white;font-weight:300;margin-bottom:4px;}
+.ob-header p{font-size:.78rem;color:rgba(255,255,255,.75);}
+.ob-progress{display:flex;gap:6px;justify-content:center;padding:16px 24px 0;}
+.ob-dot{flex:1;height:4px;border-radius:4px;background:var(--border);transition:background .3s;}
+.ob-dot.active{background:var(--rose);}
+.ob-dot.done{background:var(--plum);}
+.ob-body{padding:20px 24px 24px;}
+.ob-label{font-size:.78rem;color:var(--text-muted);font-weight:500;letter-spacing:.03em;margin-bottom:8px;display:block;}
+.ob-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--plum);margin-bottom:6px;}
+.ob-desc{font-size:.8rem;color:var(--text-muted);line-height:1.6;margin-bottom:18px;}
+.ob-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--text);background:var(--warm-white);outline:none;-webkit-appearance:none;transition:border-color .2s;}
+.ob-input:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(201,96,122,.1);}
+.ob-slider-wrap{margin-top:8px;}
+.ob-slider{width:100%;-webkit-appearance:none;height:6px;border-radius:6px;background:var(--border);outline:none;cursor:pointer;}
+.ob-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--rose);cursor:pointer;box-shadow:0 2px 8px rgba(201,96,122,.4);}
+.ob-slider-labels{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-muted);margin-top:6px;}
+.ob-slider-val{text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--plum);margin:8px 0 4px;font-weight:500;}
+.ob-next-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--plum),var(--rose));color:white;border:none;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;cursor:pointer;margin-top:16px;transition:opacity .15s;position:relative;overflow:hidden;}
+.ob-next-btn:active{opacity:.9;}
+.ob-skip{text-align:center;margin-top:10px;}
+.ob-skip button{background:none;border:none;font-size:.75rem;color:rgba(255,255,255,.6);cursor:pointer;font-family:'DM Sans',sans-serif;}
+/* ── CHART ── */
+.chart-card{background:white;border-radius:16px;padding:16px;box-shadow:var(--shadow);margin-bottom:12px;}
+.chart-card h4{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--plum);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.chart-empty{text-align:center;padding:20px;color:var(--text-muted);font-size:.8rem;}
+.chart-empty .ce{font-size:2rem;margin-bottom:6px;}
 </style>
 </head>
 <body>
@@ -330,7 +364,25 @@ header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;he
       Lanjutkan dengan Google
     </button>
   </div>
-  <div class="auth-footer">© 2026 <span style="color:var(--rose-light);font-weight:500">Yoki Valianda</span> · SiklusKu v2.0</div>
+  <div class="auth-footer">© 2026 <span style="color:var(--rose-light);font-weight:500">Yoki Valianda</span> · SiklusKu v2.2</div>
+</div>
+
+<!-- ONBOARDING WIZARD -->
+<div id="onboarding">
+  <div class="ob-card">
+    <div class="ob-header">
+      <span class="ob-emoji" id="obEmoji">🌸</span>
+      <h2 id="obTitle">Selamat Datang!</h2>
+      <p id="obSubtitle">Mari setup SiklusKu untuk Anda</p>
+    </div>
+    <div class="ob-progress">
+      <div class="ob-dot active" id="obDot0"></div>
+      <div class="ob-dot" id="obDot1"></div>
+      <div class="ob-dot" id="obDot2"></div>
+    </div>
+    <div class="ob-body" id="obBody"></div>
+  </div>
+  <div class="ob-skip"><button onclick="skipOnboarding()">Lewati, isi nanti →</button></div>
 </div>
 
 <!-- HEADER -->
@@ -440,6 +492,30 @@ header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;he
         <div class="sc2"><div class="v" id="sMax">–<span class="u">hr</span></div><div class="n">Siklus terpanjang</div></div>
         <div class="sc2"><div class="v" id="sTotal">–</div><div class="n">Total catatan</div></div>
         <div class="sc2"><div class="v" id="sSymp" style="font-size:1rem;margin-top:4px">–</div><div class="n">Gejala paling sering</div></div>
+      </div>
+    </div>
+    <!-- GRAFIK PANJANG SIKLUS -->
+    <div class="sec">
+      <div class="chart-card" id="chartCycleWrap">
+        <h4>📈 Panjang Siklus per Bulan</h4>
+        <div id="chartCycleEmpty" class="chart-empty" style="display:none"><div class="ce">📊</div>Butuh minimal 2 data untuk menampilkan grafik</div>
+        <canvas id="chartCycle" height="180"></canvas>
+      </div>
+    </div>
+    <!-- GRAFIK DURASI HAID -->
+    <div class="sec">
+      <div class="chart-card">
+        <h4>🩸 Durasi Haid per Periode</h4>
+        <div id="chartDurEmpty" class="chart-empty" style="display:none"><div class="ce">📊</div>Butuh minimal 1 data untuk menampilkan grafik</div>
+        <canvas id="chartDur" height="180"></canvas>
+      </div>
+    </div>
+    <!-- GRAFIK GEJALA -->
+    <div class="sec" style="margin-bottom:16px">
+      <div class="chart-card">
+        <h4>😣 Gejala Paling Sering</h4>
+        <div id="chartSympEmpty" class="chart-empty" style="display:none"><div class="ce">📊</div>Belum ada data gejala</div>
+        <canvas id="chartSymp" height="200"></canvas>
       </div>
     </div>
   </div>
@@ -783,6 +859,8 @@ async function onLoggedIn(){
     document.getElementById('pStart').value = iso(new Date());
     loadNotifSettings();
     refresh();
+    // Tampilkan onboarding jika user baru
+    setTimeout(()=>checkOnboarding(), 600);
 
   } catch(e) {
     console.error('onLoggedIn error:', e);
@@ -1217,9 +1295,239 @@ function showLoading(v){document.getElementById('loadingOverlay').classList.togg
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 
 // ==================== REFRESH ====================
-function refresh(){updateBanner();renderCalendar();updateStats();updateHistory();}
+function refresh(){updateBanner();renderCalendar();updateStats();updateHistory();renderCharts();}
 
 // ==================== INIT ====================
+// ==================== ONBOARDING ====================
+let obStep = 0;
+let obData = { lastPeriod:'', cycleLen:28, periodDur:5 };
+let chartCycle=null, chartDur=null, chartSymp=null;
+
+const obSteps = [
+  {
+    emoji:'🌸', title:'Kapan haid terakhir?', subtitle:'Kami butuh ini untuk prediksi akurat',
+    render:()=>`
+      <span class="ob-label">TANGGAL MULAI HAID TERAKHIR</span>
+      <div class="ob-title">Haid terakhir Anda</div>
+      <div class="ob-desc">Masukkan tanggal pertama haid terakhir Anda. Data ini digunakan untuk menghitung prediksi haid berikutnya.</div>
+      <input type="date" class="ob-input" id="obLastPeriod" value="${obData.lastPeriod||iso(new Date())}" max="${iso(new Date())}">
+      <button class="ob-next-btn ripple-btn" onclick="addRipple(event);obNext()">Lanjut →</button>`,
+    validate:()=>{ const v=document.getElementById('obLastPeriod')?.value; if(!v){showToast('⚠️ Pilih tanggal haid terakhir');return false;} obData.lastPeriod=v; return true; }
+  },
+  {
+    emoji:'📅', title:'Panjang siklus Anda?', subtitle:'Rata-rata jarak antar haid',
+    render:()=>`
+      <span class="ob-label">PANJANG SIKLUS (HARI)</span>
+      <div class="ob-title">Siklus rata-rata Anda</div>
+      <div class="ob-desc">Panjang siklus dihitung dari hari pertama haid hingga hari pertama haid berikutnya. Normal berkisar 21–35 hari.</div>
+      <div class="ob-slider-val" id="obCycleVal">${obData.cycleLen} hari</div>
+      <div class="ob-slider-wrap">
+        <input type="range" class="ob-slider" id="obCycleLen" min="21" max="35" value="${obData.cycleLen}" oninput="document.getElementById('obCycleVal').textContent=this.value+' hari';obData.cycleLen=parseInt(this.value)">
+        <div class="ob-slider-labels"><span>21 hr</span><span>28 hr</span><span>35 hr</span></div>
+      </div>
+      <button class="ob-next-btn ripple-btn" onclick="addRipple(event);obNext()">Lanjut →</button>`,
+    validate:()=>true
+  },
+  {
+    emoji:'🩸', title:'Durasi haid Anda?', subtitle:'Berapa hari biasanya haid berlangsung',
+    render:()=>`
+      <span class="ob-label">DURASI HAID (HARI)</span>
+      <div class="ob-title">Lama haid Anda</div>
+      <div class="ob-desc">Rata-rata durasi haid normal adalah 3–7 hari. Masukkan durasi yang paling sering Anda alami.</div>
+      <div class="ob-slider-val" id="obDurVal">${obData.periodDur} hari</div>
+      <div class="ob-slider-wrap">
+        <input type="range" class="ob-slider" id="obPeriodDur" min="2" max="10" value="${obData.periodDur}" oninput="document.getElementById('obDurVal').textContent=this.value+' hari';obData.periodDur=parseInt(this.value)">
+        <div class="ob-slider-labels"><span>2 hr</span><span>5 hr</span><span>10 hr</span></div>
+      </div>
+      <button class="ob-next-btn ripple-btn" onclick="addRipple(event);obFinish()" style="background:linear-gradient(135deg,#27ae60,#2ecc71)">✅ Mulai SiklusKu!</button>`
+  }
+];
+
+function renderObStep(){
+  const step = obSteps[obStep];
+  document.getElementById('obEmoji').textContent = step.emoji;
+  document.getElementById('obTitle').textContent = step.title;
+  document.getElementById('obSubtitle').textContent = step.subtitle;
+  document.getElementById('obBody').innerHTML = step.render();
+  // Update dots
+  obSteps.forEach((_,i)=>{
+    const dot = document.getElementById('obDot'+i);
+    dot.className = 'ob-dot' + (i<obStep?' done':i===obStep?' active':'');
+  });
+}
+
+function obNext(){
+  const step = obSteps[obStep];
+  if(step.validate && !step.validate()) return;
+  obStep++;
+  if(obStep < obSteps.length){ renderObStep(); }
+}
+
+async function obFinish(){
+  if(!currentUser) return;
+  showLoading(true);
+  try{
+    // Simpan data onboarding sebagai log pertama
+    const start = obData.lastPeriod;
+    const end = toISOEnd(start, obData.periodDur);
+    await dbInsert({ id:Date.now(), start, end, flow:'sedang', mood:'', symptoms:[], note:'' });
+    // Simpan preferensi siklus ke localStorage
+    localStorage.setItem('siklusku_prefs_'+currentUser.id, JSON.stringify({ cycleLen:obData.cycleLen, periodDur:obData.periodDur }));
+    await loadLogs();
+    refresh();
+    showToast('🌸 Setup selesai! Selamat datang di SiklusKu!');
+  } catch(e){ console.error(e); }
+  finally{ showLoading(false); }
+  document.getElementById('onboarding').classList.remove('show');
+  localStorage.setItem('siklusku_onboarded_'+currentUser.id, '1');
+}
+
+function skipOnboarding(){
+  document.getElementById('onboarding').classList.remove('show');
+  localStorage.setItem('siklusku_onboarded_'+currentUser.id, '1');
+}
+
+function toISOEnd(startISO, days){
+  const d = pd(startISO);
+  return iso(addD(d, days-1));
+}
+
+function checkOnboarding(){
+  if(!currentUser) return;
+  const done = localStorage.getItem('siklusku_onboarded_'+currentUser.id);
+  if(!done && logs.length===0){
+    obStep=0;
+    obData={ lastPeriod:iso(new Date()), cycleLen:28, periodDur:5 };
+    renderObStep();
+    document.getElementById('onboarding').classList.add('show');
+  }
+}
+
+// ==================== CHARTS ====================
+function renderCharts(){
+  const sorted = [...logs].sort((a,b)=>pd(a.start)-pd(b.start));
+
+  // ── Chart 1: Panjang Siklus ──
+  const cycleCanvas = document.getElementById('chartCycle');
+  const cycleEmpty = document.getElementById('chartCycleEmpty');
+  if(sorted.length < 2){
+    if(cycleCanvas) cycleCanvas.style.display='none';
+    if(cycleEmpty) cycleEmpty.style.display='block';
+  } else {
+    if(cycleCanvas) cycleCanvas.style.display='block';
+    if(cycleEmpty) cycleEmpty.style.display='none';
+    const labels=[], data=[];
+    for(let i=1;i<sorted.length;i++){
+      const days = diff(pd(sorted[i-1].start), pd(sorted[i].start));
+      const [y,m] = sorted[i].start.split('-');
+      labels.push(`${MONTHS[parseInt(m)-1].substring(0,3)} ${y}`);
+      data.push(days);
+    }
+    if(chartCycle) chartCycle.destroy();
+    chartCycle = new Chart(cycleCanvas, {
+      type:'line',
+      data:{
+        labels,
+        datasets:[{
+          label:'Panjang Siklus (hari)',
+          data,
+          borderColor:'#7b3f62',
+          backgroundColor:'rgba(123,63,98,0.08)',
+          borderWidth:2.5,
+          pointBackgroundColor:'#c9607a',
+          pointRadius:5,
+          pointHoverRadius:7,
+          tension:0.35,
+          fill:true
+        }]
+      },
+      options:{
+        responsive:true,
+        plugins:{
+          legend:{display:false},
+          tooltip:{callbacks:{label:ctx=>`${ctx.raw} hari`}}
+        },
+        scales:{
+          y:{min:18,max:38,ticks:{stepSize:5,callback:v=>v+' hr'},grid:{color:'rgba(0,0,0,0.05)'}},
+          x:{grid:{display:false},ticks:{font:{size:10}}}
+        }
+      }
+    });
+  }
+
+  // ── Chart 2: Durasi Haid ──
+  const durCanvas = document.getElementById('chartDur');
+  const durEmpty = document.getElementById('chartDurEmpty');
+  if(!sorted.length){
+    if(durCanvas) durCanvas.style.display='none';
+    if(durEmpty) durEmpty.style.display='block';
+  } else {
+    if(durCanvas) durCanvas.style.display='block';
+    if(durEmpty) durEmpty.style.display='none';
+    const labels=[], data=[], colors=[];
+    sorted.slice(-8).forEach(l=>{
+      const dur = l.end ? diff(pd(l.start),pd(l.end))+1 : 5;
+      const [y,m,d] = l.start.split('-');
+      labels.push(`${d}/${m}`);
+      data.push(dur);
+      colors.push(dur<=3?'#e8a87c':dur<=5?'#c9607a':'#7b3f62');
+    });
+    if(chartDur) chartDur.destroy();
+    chartDur = new Chart(durCanvas, {
+      type:'bar',
+      data:{
+        labels,
+        datasets:[{
+          label:'Durasi (hari)',
+          data,
+          backgroundColor:colors,
+          borderRadius:8,
+          borderSkipped:false
+        }]
+      },
+      options:{
+        responsive:true,
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw} hari`}}},
+        scales:{
+          y:{min:0,max:10,ticks:{stepSize:2,callback:v=>v+' hr'},grid:{color:'rgba(0,0,0,0.05)'}},
+          x:{grid:{display:false},ticks:{font:{size:10}}}
+        }
+      }
+    });
+  }
+
+  // ── Chart 3: Gejala ──
+  const sympCanvas = document.getElementById('chartSymp');
+  const sympEmpty = document.getElementById('chartSympEmpty');
+  const sc={};
+  sorted.forEach(l=>(l.symptoms||[]).forEach(s=>{sc[s]=(sc[s]||0)+1;}));
+  const sympEntries = Object.entries(sc).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  if(!sympEntries.length){
+    if(sympCanvas) sympCanvas.style.display='none';
+    if(sympEmpty) sympEmpty.style.display='block';
+  } else {
+    if(sympCanvas) sympCanvas.style.display='block';
+    if(sympEmpty) sympEmpty.style.display='none';
+    const sympColors=['#c9607a','#7b3f62','#e8a87c','#7ab87a','#f2d4da','#c5d0e8'];
+    if(chartSymp) chartSymp.destroy();
+    chartSymp = new Chart(sympCanvas, {
+      type:'doughnut',
+      data:{
+        labels:sympEntries.map(e=>e[0]),
+        datasets:[{data:sympEntries.map(e=>e[1]),backgroundColor:sympColors,borderWidth:2,borderColor:'white'}]
+      },
+      options:{
+        responsive:true,
+        plugins:{
+          legend:{position:'bottom',labels:{font:{size:11},padding:10,boxWidth:12}},
+          tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${ctx.raw}x`}}
+        },
+        cutout:'60%'
+      }
+    });
+  }
+}
+
 // ==================== RESET PASSWORD MODE ====================
 function showResetPasswordMode(){
   document.getElementById('authScreen').classList.add('show');

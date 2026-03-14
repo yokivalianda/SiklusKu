@@ -12,6 +12,6 @@
 
 🛠️ Tech Stack: HTML · CSS · Vanilla JS · Supabase · Netlify
 
-🌐 Live Demo: https://siklusku.netlify.app
+🌐: https://siklusku.netlify.app
 
 Dibuat oleh Yoki Valianda © 2026

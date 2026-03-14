@@ -320,6 +320,15 @@ header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;he
 .chart-card h4{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--plum);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
 .chart-empty{text-align:center;padding:20px;color:var(--text-muted);font-size:.8rem;}
 .chart-empty .ce{font-size:2rem;margin-bottom:6px;}
+/* ── UPDATE BANNER ── */
+.update-banner{position:fixed;bottom:calc(var(--sab) + 70px);left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:448px;background:linear-gradient(135deg,var(--plum-deep),var(--plum));color:white;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(74,31,58,.35);z-index:300;animation:slideUp .3s cubic-bezier(.22,.68,0,1.2);}
+.update-banner .ub-icon{font-size:1.4rem;flex-shrink:0;}
+.update-banner .ub-text{flex:1;}
+.update-banner .ub-text h4{font-size:.82rem;font-weight:500;margin-bottom:1px;}
+.update-banner .ub-text p{font-size:.7rem;opacity:.8;}
+.update-banner .ub-btn{flex-shrink:0;background:white;color:var(--plum);border:none;border-radius:8px;padding:7px 12px;font-size:.75rem;font-weight:600;cursor:pointer;transition:opacity .15s;}
+.update-banner .ub-btn:active{opacity:.85;}
+.update-banner .ub-close{background:none;border:none;color:rgba(255,255,255,.6);font-size:1.1rem;cursor:pointer;padding:0 0 0 4px;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -1528,6 +1537,37 @@ function renderCharts(){
   }
 }
 
+// ==================== UPDATE BANNER ====================
+function showUpdateBanner(newSW){
+  // Hapus banner lama jika ada
+  const old = document.getElementById('updateBanner');
+  if(old) old.remove();
+
+  const banner = document.createElement('div');
+  banner.className = 'update-banner';
+  banner.id = 'updateBanner';
+  banner.innerHTML = `
+    <div class="ub-icon">🆕</div>
+    <div class="ub-text">
+      <h4>Versi Baru Tersedia!</h4>
+      <p>Update SiklusKu sudah siap digunakan</p>
+    </div>
+    <button class="ub-btn" onclick="applyUpdate()">Perbarui</button>
+    <button class="ub-close" onclick="this.closest('.update-banner').remove()">✕</button>
+  `;
+  document.body.appendChild(banner);
+
+  // Simpan referensi SW baru
+  window._pendingSW = newSW;
+}
+
+function applyUpdate(){
+  if(window._pendingSW){
+    window._pendingSW.postMessage('SKIP_WAITING');
+  }
+  document.getElementById('updateBanner')?.remove();
+}
+
 // ==================== RESET PASSWORD MODE ====================
 function showResetPasswordMode(){
   document.getElementById('authScreen').classList.add('show');
@@ -1643,7 +1683,34 @@ async function init(){
     }, 1000);
   }
 
-  if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  // ── Service Worker dengan deteksi update otomatis ──
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('./sw.js').then(reg => {
+
+      // Cek update setiap kali halaman dibuka
+      reg.update();
+
+      // Saat SW baru ditemukan
+      reg.addEventListener('updatefound', () => {
+        const newSW = reg.installing;
+        newSW.addEventListener('statechange', () => {
+          // SW baru siap tapi belum aktif (ada SW lama masih jalan)
+          if(newSW.state === 'installed' && navigator.serviceWorker.controller){
+            showUpdateBanner(newSW);
+          }
+        });
+      });
+    }).catch(()=>{});
+
+    // Reload otomatis setelah SW baru aktif
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if(!refreshing){
+        refreshing = true;
+        window.location.reload();
+      }
+    });
+  }
 }
 
 function showConfigError(){

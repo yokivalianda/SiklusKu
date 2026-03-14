@@ -3,7 +3,7 @@
 // Ganti versi CACHE_VERSION setiap kali ada update fitur baru
 // Contoh: 'v3' → 'v4' → 'v5' dst.
 // ============================================================
-const CACHE_VERSION = 'v2.2'; // ← GANTI INI SETIAP UPDATE
+const CACHE_VERSION = 'v2.5'; // ← GANTI INI SETIAP UPDATE
 const CACHE_NAME = `siklusku-${CACHE_VERSION}`;
 
 const ASSETS = [

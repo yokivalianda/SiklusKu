@@ -28,6 +28,29 @@
   --shadow:0 4px 24px rgba(122,63,98,0.12);
   --sat:env(safe-area-inset-top);--sab:env(safe-area-inset-bottom);
 }
+/* ── DARK MODE ── */
+[data-theme="dark"]{
+  --rose:#e0789a;--rose-light:#3d1f2d;--rose-pale:#2a1520;
+  --plum:#c49abf;--plum-deep:#1a0d14;--cream:#121212;
+  --warm-white:#1e1218;--text:#f0dce6;--text-muted:#a07890;
+  --border:#3d2535;--shadow:0 4px 24px rgba(0,0,0,0.4);
+  --fertile:#5a9e5a;--ovulation:#c47840;
+}
+[data-theme="dark"] header{background:linear-gradient(135deg,#0d060a,#2a1020 60%,#6b2040)!important;}
+[data-theme="dark"] header.late-mode{background:linear-gradient(135deg,#3d0000,#8b1a1a 60%,#c0392b)!important;}
+[data-theme="dark"] .bottom-nav{background:#1a1018;border-color:#3d2535;}
+[data-theme="dark"] .modal-sheet,[data-theme="dark"] .user-modal{background:#1e1218;}
+[data-theme="dark"] .auth-card{background:#1e1218;}
+[data-theme="dark"] .auth-input{background:#2a1520;color:var(--text);border-color:var(--border);}
+[data-theme="dark"] .google-btn{background:#2a1520;color:var(--text);border-color:var(--border);}
+[data-theme="dark"] .ob-card{background:#1e1218;}
+[data-theme="dark"] .cg .cd:not(.period):not(.fertile):not(.ovulation):not(.predicted):not(.late-day):not(.late-today):hover{background:#3d2535;}
+[data-theme="dark"] #authScreen{background:linear-gradient(160deg,#0d060a,#2a1020 50%,#6b2040);}
+[data-theme="dark"] #onboarding{background:linear-gradient(160deg,#0d060a,#2a1020 50%,#6b2040);}
+[data-theme="dark"] #splash{background:linear-gradient(160deg,#0d060a,#2a1020 50%,#6b2040);}
+[data-theme="dark"] .late-alert{box-shadow:0 6px 24px rgba(0,0,0,.5);}
+[data-theme="dark"] input[type="date"],[data-theme="dark"] textarea{background:var(--warm-white)!important;color:var(--text)!important;color-scheme:dark;}
+
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overflow:hidden;}
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);display:flex;flex-direction:column;max-width:480px;margin:0 auto;}
@@ -354,6 +377,31 @@ header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;he
 .uc-apply-btn{width:100%;padding:11px;border-radius:10px;border:none;background:white;color:var(--plum);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:opacity .15s;}
 .uc-apply-btn:active{opacity:.85;}
 .uc-hint{font-size:.7rem;color:var(--text-muted);text-align:center;line-height:1.5;}
+/* ── AI PREDICTION CARD ── */
+.ai-card{margin:14px 14px 0;background:linear-gradient(135deg,#1a0d2e,#3d1f5a,#6b2a7a);border-radius:16px;padding:16px 18px;box-shadow:0 6px 24px rgba(107,42,122,.35);position:relative;overflow:hidden;animation:slideDown .35s ease;}
+.ai-card::before{content:'';position:absolute;top:-30px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.06);}
+.ai-card .ai-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.ai-card .ai-icon{font-size:1.6rem;}
+.ai-card .ai-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:white;font-weight:500;}
+.ai-card .ai-badge{font-size:.6rem;background:rgba(255,255,255,.2);color:white;border-radius:10px;padding:2px 8px;letter-spacing:.04em;margin-left:6px;}
+.ai-card .ai-sub{font-size:.72rem;color:rgba(255,255,255,.7);margin-top:1px;}
+.ai-insights{display:flex;flex-direction:column;gap:7px;}
+.ai-insight{background:rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;}
+.ai-insight .ai-i-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+.ai-insight .ai-i-text{font-size:.75rem;color:rgba(255,255,255,.9);line-height:1.5;}
+.ai-insight .ai-i-text b{color:white;font-weight:500;}
+.ai-loading{text-align:center;padding:16px;color:rgba(255,255,255,.6);font-size:.8rem;}
+.ai-loading .ai-spinner{display:inline-block;animation:spin .8s linear infinite;font-size:1.2rem;margin-bottom:6px;}
+/* ── DARK MODE TOGGLE ── */
+.dm-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+.dm-toggle-row .nr-label h4{font-size:.85rem;color:var(--text);font-weight:500;}
+.dm-toggle-row .nr-label p{font-size:.72rem;color:var(--text-muted);margin-top:2px;}
+/* ── LANGUAGE SELECTOR ── */
+.lang-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);}
+.lang-row .nr-label h4{font-size:.85rem;color:var(--text);font-weight:500;}
+.lang-row .nr-label p{font-size:.72rem;color:var(--text-muted);margin-top:2px;}
+.lang-select{padding:6px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--warm-white);color:var(--text);font-family:'DM Sans',sans-serif;font-size:.8rem;outline:none;cursor:pointer;}
+.lang-select:focus{border-color:var(--rose);}
 </style>
 </head>
 <body>
@@ -398,7 +446,7 @@ header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;he
       Lanjutkan dengan Google
     </button>
   </div>
-  <div class="auth-footer">© 2026 <span style="color:var(--rose-light);font-weight:500">Yoki Valianda</span> · SiklusKu </div>
+  <div class="auth-footer">© 2026 <span style="color:var(--rose-light);font-weight:500">Yoki Valianda</span> · SiklusKu v2.5</div>
 </div>
 
 <!-- ONBOARDING WIZARD -->
@@ -443,10 +491,12 @@ header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;he
   <div class="page active" id="page-beranda">
     <div id="lateAlertWrap"></div>
     <div class="qs">
-      <div class="qsc" id="daysCard"><div class="num" id="daysNext">–</div><div class="lbl" id="daysLbl">hari menuju<br>haid berikutnya</div></div>
-      <div class="qsc"><div class="num" id="cycDay">–</div><div class="lbl">hari dalam<br>siklus ini</div></div>
-      <div class="qsc"><div class="num" id="avgCyc">28</div><div class="lbl">rata-rata<br>siklus (hari)</div></div>
+      <div class="qsc" id="daysCard"><div class="num" id="daysNext">–</div><div class="lbl" id="daysLbl" data-i18n="daysToNext">hari menuju<br>haid berikutnya</div></div>
+      <div class="qsc"><div class="num" id="cycDay">–</div><div class="lbl" data-i18n="cycleDay">hari dalam<br>siklus ini</div></div>
+      <div class="qsc"><div class="num" id="avgCyc">28</div><div class="lbl" data-i18n="avgCycle">rata-rata<br>siklus (hari)</div></div>
     </div>
+    <!-- AI PREDICTION CARD -->
+    <div id="aiCardWrap"></div>
     <div class="sec">
       <div class="sec-title">📅 Kalender Siklus</div>
       <div class="cw">
@@ -560,57 +610,73 @@ header::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;he
       <div class="sec-title">📋 Riwayat Haid</div>
       <div class="hl2" id="histList"><div class="empty-st"><div class="em">🌸</div><p>Belum ada data.</p></div></div>
     </div>
-    <div class="credit">© 2026 <span>Yoki Valianda</span> · SiklusKu </div>
+    <div class="credit">© 2026 <span>Yoki Valianda</span> · SiklusKu v2.5</div>
   </div>
 
   <!-- PENGATURAN -->
   <div class="page" id="page-pengaturan">
+    <!-- TAMPILAN -->
     <div class="sec">
-      <div class="sec-title">🔔 Notifikasi</div>
+      <div class="sec-title">🎨 <span data-i18n="appearance">Tampilan</span></div>
       <div class="notif-card">
-        <div class="notif-row"><div class="nr-label"><h4>🚨 Peringatan Telat Haid</h4><p>Notifikasi saat haid terlambat</p></div><label class="toggle"><input type="checkbox" id="togLate" onchange="saveNotifSettings()"><span class="toggle-slider"></span></label></div>
-        <div class="notif-row"><div class="nr-label"><h4>📅 Pengingat H-3 Haid</h4><p>Ingatkan 3 hari sebelum prediksi</p></div><label class="toggle"><input type="checkbox" id="togRemind" onchange="saveNotifSettings()"><span class="toggle-slider"></span></label></div>
-        <div class="notif-row"><div class="nr-label"><h4>🌺 Info Masa Subur</h4><p>Notifikasi saat masa subur aktif</p></div><label class="toggle"><input type="checkbox" id="togFertile" onchange="saveNotifSettings()"><span class="toggle-slider"></span></label></div>
-        <button class="test-btn" onclick="sendTestNotif()">🔔 Kirim Notifikasi Uji Coba</button>
+        <div class="dm-toggle-row">
+          <div class="nr-label"><h4>🌙 <span data-i18n="darkMode">Mode Gelap</span></h4><p data-i18n="darkModeDesc">Tampilan gelap untuk malam hari</p></div>
+          <label class="toggle"><input type="checkbox" id="togDark" onchange="toggleDarkMode(this.checked)"><span class="toggle-slider"></span></label>
+        </div>
+        <div class="lang-row">
+          <div class="nr-label"><h4>🌐 <span data-i18n="language">Bahasa</span></h4><p data-i18n="languageDesc">Pilih bahasa tampilan aplikasi</p></div>
+          <select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)">
+            <option value="id">🇮🇩 Indonesia</option>
+            <option value="en">🇬🇧 English</option>
+          </select>
+        </div>
       </div>
     </div>
+    <!-- NOTIFIKASI -->
+    <div class="sec">
+      <div class="sec-title">🔔 <span data-i18n="notifications">Notifikasi</span></div>
+      <div class="notif-card">
+        <div class="notif-row"><div class="nr-label"><h4>🚨 <span data-i18n="lateAlert">Peringatan Telat Haid</span></h4><p data-i18n="lateAlertDesc">Notifikasi saat haid terlambat</p></div><label class="toggle"><input type="checkbox" id="togLate" onchange="saveNotifSettings()"><span class="toggle-slider"></span></label></div>
+        <div class="notif-row"><div class="nr-label"><h4>📅 <span data-i18n="remindH3">Pengingat H-3 Haid</span></h4><p data-i18n="remindH3Desc">Ingatkan 3 hari sebelum prediksi</p></div><label class="toggle"><input type="checkbox" id="togRemind" onchange="saveNotifSettings()"><span class="toggle-slider"></span></label></div>
+        <div class="notif-row"><div class="nr-label"><h4>🌺 <span data-i18n="fertileInfo">Info Masa Subur</span></h4><p data-i18n="fertileInfoDesc">Notifikasi saat masa subur aktif</p></div><label class="toggle"><input type="checkbox" id="togFertile" onchange="saveNotifSettings()"><span class="toggle-slider"></span></label></div>
+        <button class="test-btn" onclick="sendTestNotif()" data-i18n="testNotif">🔔 Kirim Notifikasi Uji Coba</button>
+      </div>
+    </div>
+    <!-- BACKUP -->
     <div class="sec" style="margin-bottom:10px">
-      <div class="sec-title">💾 Backup Lokal</div>
+      <div class="sec-title">💾 <span data-i18n="backup">Backup Lokal</span></div>
       <div class="backup-card">
         <div class="backup-row">
-          <button class="bk-btn" onclick="exportData()">⬇️ Export JSON</button>
-          <button class="bk-btn" onclick="document.getElementById('importFile').click()">⬆️ Import JSON</button>
+          <button class="bk-btn" onclick="exportData()" data-i18n="exportJson">⬇️ Export JSON</button>
+          <button class="bk-btn" onclick="document.getElementById('importFile').click()" data-i18n="importJson">⬆️ Import JSON</button>
         </div>
         <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
-        <div class="bk-info">💡 Data utama tersimpan di server Supabase (cloud). Export JSON sebagai backup tambahan.</div>
+        <div class="bk-info" data-i18n="backupInfo">💡 Data utama tersimpan di server Supabase (cloud). Export JSON sebagai backup tambahan.</div>
       </div>
     </div>
-    <!-- UPDATE APLIKASI -->
+    <!-- UPDATE -->
     <div class="sec" style="margin-bottom:20px">
-      <div class="sec-title">🔄 Pembaruan Aplikasi</div>
+      <div class="sec-title">🔄 <span data-i18n="appUpdate">Pembaruan Aplikasi</span></div>
       <div class="update-check-card">
         <div class="uc-info">
           <div class="uc-icon">📱</div>
           <div>
             <div class="uc-title">SiklusKu</div>
-            <div class="uc-ver" id="ucVerLabel">Versi saat ini: v2.2</div>
-            <div class="uc-status" id="ucStatus">Belum dicek</div>
+            <div class="uc-ver" id="ucVerLabel">Versi saat ini: v2.5</div>
+            <div class="uc-status" id="ucStatus" data-i18n="notChecked">Belum dicek</div>
           </div>
         </div>
         <button class="uc-btn" id="ucBtn" onclick="checkForUpdate()">
-          <span id="ucBtnIcon">🔄</span> Cek Pembaruan
+          <span id="ucBtnIcon">🔄</span> <span data-i18n="checkUpdate">Cek Pembaruan</span>
         </button>
         <div class="uc-found" id="ucFound" style="display:none">
           <div class="uc-found-text">
             <span>🆕</span>
-            <div>
-              <b>Pembaruan tersedia!</b>
-              <p>Versi baru SiklusKu sudah siap</p>
-            </div>
+            <div><b data-i18n="updateAvailable">Pembaruan tersedia!</b><p data-i18n="updateReady">Versi baru SiklusKu sudah siap</p></div>
           </div>
-          <button class="uc-apply-btn" onclick="applyUpdate()">Perbarui Sekarang</button>
+          <button class="uc-apply-btn" onclick="applyUpdate()" data-i18n="updateNow">Perbarui Sekarang</button>
         </div>
-        <div class="uc-hint">Aplikasi juga akan memberitahu Anda otomatis saat ada pembaruan baru.</div>
+        <div class="uc-hint" data-i18n="autoUpdateHint">Aplikasi juga akan memberitahu Anda otomatis saat ada pembaruan baru.</div>
       </div>
     </div>
   </div>
@@ -920,6 +986,11 @@ async function onLoggedIn(){
     }
     document.getElementById('pStart').value = iso(new Date());
     loadNotifSettings();
+    loadDarkMode();
+    loadLanguage();
+    // Sync dark mode toggle state
+    const togDark = document.getElementById('togDark');
+    if(togDark) togDark.checked = document.documentElement.getAttribute('data-theme')==='dark';
     refresh();
     // Tampilkan onboarding jika user baru
     setTimeout(()=>checkOnboarding(), 600);
@@ -1357,7 +1428,7 @@ function showLoading(v){document.getElementById('loadingOverlay').classList.togg
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
 
 // ==================== REFRESH ====================
-function refresh(){updateBanner();renderCalendar();updateStats();updateHistory();renderCharts();}
+function refresh(){updateBanner();renderCalendar();updateStats();updateHistory();renderCharts();renderAIPrediction();applyI18n();}
 
 // ==================== INIT ====================
 // ==================== ONBOARDING ====================
@@ -1588,6 +1659,215 @@ function renderCharts(){
       }
     });
   }
+}
+
+// ==================== DARK MODE ====================
+function toggleDarkMode(on){
+  document.documentElement.setAttribute('data-theme', on ? 'dark' : 'light');
+  localStorage.setItem('siklusku_dark', on ? '1' : '0');
+  // Update theme-color meta
+  document.querySelector('meta[name="theme-color"]').content = on ? '#1a0d14' : '#7b3f62';
+}
+function loadDarkMode(){
+  const saved = localStorage.getItem('siklusku_dark');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = saved !== null ? saved === '1' : prefersDark;
+  if(isDark){
+    document.documentElement.setAttribute('data-theme','dark');
+    const tog = document.getElementById('togDark');
+    if(tog) tog.checked = true;
+  }
+}
+
+// ==================== MULTI-LANGUAGE ====================
+const LANG = {
+  id:{
+    appName:'SiklusKu', monitorTitle:'MONITOR SIKLUS HAID',
+    daysToNext:'hari menuju<br>haid berikutnya', cycleDay:'hari dalam<br>siklus ini', avgCycle:'rata-rata<br>siklus (hari)',
+    lateDays:'hari\ntelat haid', appearance:'Tampilan', darkMode:'Mode Gelap', darkModeDesc:'Tampilan gelap untuk malam hari',
+    language:'Bahasa', languageDesc:'Pilih bahasa tampilan aplikasi',
+    notifications:'Notifikasi', lateAlert:'Peringatan Telat Haid', lateAlertDesc:'Notifikasi saat haid terlambat',
+    remindH3:'Pengingat H-3 Haid', remindH3Desc:'Ingatkan 3 hari sebelum prediksi',
+    fertileInfo:'Info Masa Subur', fertileInfoDesc:'Notifikasi saat masa subur aktif',
+    testNotif:'🔔 Kirim Notifikasi Uji Coba', backup:'Backup Lokal',
+    exportJson:'⬇️ Export JSON', importJson:'⬆️ Import JSON',
+    backupInfo:'💡 Data utama tersimpan di server Supabase (cloud). Export JSON sebagai backup tambahan.',
+    appUpdate:'Pembaruan Aplikasi', notChecked:'Belum dicek', checkUpdate:'Cek Pembaruan',
+    updateAvailable:'Pembaruan tersedia!', updateReady:'Versi baru SiklusKu sudah siap',
+    updateNow:'Perbarui Sekarang', autoUpdateHint:'Aplikasi juga akan memberitahu Anda otomatis saat ada pembaruan baru.',
+    calendarTitle:'Kalender Siklus', statsTitle:'Statistik Siklus', historyTitle:'Riwayat Haid',
+    recordTitle:'Catat Data Haid', settingsTitle:'Pengaturan',
+    saveBtn:'💾 Simpan Catatan', simBtn:'🧪 Simulasi Telat Haid (10 hari)',
+    phaseMenus:['Beranda','Catat','Statistik','Riwayat','Pengaturan'],
+    periodPhase:'Fase Menstruasi', folPhase:'Fase Folikular', fertPhase:'Fase Subur',
+    ovPhase:'Hari Ovulasi', lutPhase:'Fase Luteal', noData:'Belum ada data',
+    latePhase:'Haid Terlambat!', restTip:'Istirahat cukup', fertileTip:'Masa subur aktif',
+    ovTip:'Masa paling subur', lutTip:'Persiapan siklus',
+    aiTitle:'Prediksi AI', aiSubtitle:'Analisis pola siklus Anda',
+  },
+  en:{
+    appName:'SiklusKu', monitorTitle:'MENSTRUAL CYCLE MONITOR',
+    daysToNext:'days until<br>next period', cycleDay:'day in<br>current cycle', avgCycle:'average<br>cycle (days)',
+    lateDays:'days\nlate', appearance:'Appearance', darkMode:'Dark Mode', darkModeDesc:'Dark theme for night time',
+    language:'Language', languageDesc:'Select display language',
+    notifications:'Notifications', lateAlert:'Late Period Alert', lateAlertDesc:'Notify when period is late',
+    remindH3:'3-Day Reminder', remindH3Desc:'Remind 3 days before prediction',
+    fertileInfo:'Fertile Window Info', fertileInfoDesc:'Notify when fertile window starts',
+    testNotif:'🔔 Send Test Notification', backup:'Local Backup',
+    exportJson:'⬇️ Export JSON', importJson:'⬆️ Import JSON',
+    backupInfo:'💡 Main data is stored on Supabase cloud server. Export JSON as additional backup.',
+    appUpdate:'App Updates', notChecked:'Not checked', checkUpdate:'Check for Updates',
+    updateAvailable:'Update available!', updateReady:'New version of SiklusKu is ready',
+    updateNow:'Update Now', autoUpdateHint:'The app will also notify you automatically when updates are available.',
+    calendarTitle:'Cycle Calendar', statsTitle:'Cycle Statistics', historyTitle:'Period History',
+    recordTitle:'Record Period Data', settingsTitle:'Settings',
+    saveBtn:'💾 Save Record', simBtn:'🧪 Simulate Late Period (10 days)',
+    phaseMenus:['Home','Record','Stats','History','Settings'],
+    periodPhase:'Menstrual Phase', folPhase:'Follicular Phase', fertPhase:'Fertile Phase',
+    ovPhase:'Ovulation Day', lutPhase:'Luteal Phase', noData:'No data yet',
+    latePhase:'Period Late!', restTip:'Rest well', fertileTip:'Fertile window active',
+    ovTip:'Most fertile day', lutTip:'Preparing for next cycle',
+    aiTitle:'AI Prediction', aiSubtitle:'Analyzing your cycle pattern',
+  }
+};
+let currentLang = 'id';
+
+function t(key){ return LANG[currentLang]?.[key] || LANG['id'][key] || key; }
+
+function changeLanguage(lang){
+  currentLang = lang;
+  localStorage.setItem('siklusku_lang', lang);
+  applyI18n();
+  showToast(lang === 'en' ? '🌐 Language changed to English' : '🌐 Bahasa diubah ke Indonesia');
+}
+
+function loadLanguage(){
+  const saved = localStorage.getItem('siklusku_lang');
+  if(saved){ currentLang = saved; }
+  const sel = document.getElementById('langSelect');
+  if(sel) sel.value = currentLang;
+}
+
+function applyI18n(){
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const val = t(key);
+    if(val) el.innerHTML = val;
+  });
+  // Update nav labels
+  const navLabels = ['Beranda','Catat','Statistik','Riwayat','Pengaturan'];
+  const enLabels = ['Home','Record','Stats','History','Settings'];
+  document.querySelectorAll('.nb').forEach((btn, i) => {
+    const label = btn.querySelector('span:not(.ni):not(.nav-indicator)');
+    if(label && currentLang === 'en' && enLabels[i]) label.textContent = enLabels[i];
+    if(label && currentLang === 'id' && navLabels[i]) label.textContent = navLabels[i];
+  });
+  // Update save button
+  const saveBtn = document.querySelector('#page-catat .save-btn');
+  if(saveBtn) saveBtn.innerHTML = t('saveBtn');
+  const simBtn = document.querySelector('.sim-btn');
+  if(simBtn) simBtn.textContent = t('simBtn');
+  // Update section titles
+  const secTitles = {
+    'page-beranda': `📅 ${t('calendarTitle')}`,
+    'page-statistik': `📊 ${t('statsTitle')}`,
+    'page-riwayat': `📋 ${t('historyTitle')}`,
+    'page-catat': `✏️ ${t('recordTitle')}`,
+  };
+  Object.entries(secTitles).forEach(([pageId, title]) => {
+    const page = document.getElementById(pageId);
+    if(page){ const st = page.querySelector('.sec-title'); if(st) st.innerHTML = title; }
+  });
+  // Update html lang attribute
+  document.documentElement.lang = currentLang;
+  // Update daysLbl if late
+  const daysLbl = document.getElementById('daysLbl');
+  if(daysLbl && daysLbl.textContent.includes('telat')){
+    daysLbl.innerHTML = t('lateDays');
+  }
+}
+
+// ==================== AI PREDICTION ====================
+async function renderAIPrediction(){
+  const wrap = document.getElementById('aiCardWrap');
+  if(!wrap) return;
+  if(!logs.length || logs.length < 2){
+    wrap.innerHTML = '';
+    return;
+  }
+
+  // Show loading
+  wrap.innerHTML = `<div class="ai-card">
+    <div class="ai-top"><span class="ai-icon">🤖</span><div><span class="ai-title">${t('aiTitle')}</span><span class="ai-badge">AI</span><div class="ai-sub">${t('aiSubtitle')}</div></div></div>
+    <div class="ai-loading"><div class="ai-spinner">✨</div><div>${currentLang==='en'?'Analyzing your cycle...':'Menganalisis siklus Anda...'}</div></div>
+  </div>`;
+
+  try {
+    const insights = await getAIInsights();
+    if(!insights || !insights.length){ wrap.innerHTML=''; return; }
+
+    wrap.innerHTML = `<div class="ai-card">
+      <div class="ai-top">
+        <span class="ai-icon">🤖</span>
+        <div>
+          <span class="ai-title">${t('aiTitle')}</span>
+          <span class="ai-badge">AI</span>
+          <div class="ai-sub">${t('aiSubtitle')}</div>
+        </div>
+      </div>
+      <div class="ai-insights">
+        ${insights.map(ins=>`<div class="ai-insight"><span class="ai-i-icon">${ins.icon}</span><div class="ai-i-text">${ins.text}</div></div>`).join('')}
+      </div>
+    </div>`;
+  } catch(e) {
+    console.error('AI prediction error:', e);
+    wrap.innerHTML = '';
+  }
+}
+
+async function getAIInsights(){
+  const sorted = [...logs].sort((a,b)=>pd(a.start)-pd(b.start));
+  if(sorted.length < 2) return [];
+
+  // Hitung data siklus
+  const cycles=[];
+  for(let i=1;i<sorted.length;i++) cycles.push(diff(pd(sorted[i-1].start),pd(sorted[i].start)));
+  const avg = Math.round(cycles.reduce((a,b)=>a+b,0)/cycles.length);
+  const last3 = cycles.slice(-3);
+  const trend = last3.length>=2 ? last3[last3.length-1]-last3[0] : 0;
+  const durations = sorted.map(l=>l.end?diff(pd(l.start),pd(l.end))+1:5);
+  const avgDur = Math.round(durations.reduce((a,b)=>a+b,0)/durations.length);
+  const sympCount={};
+  sorted.forEach(l=>(l.symptoms||[]).forEach(s=>{sympCount[s]=(sympCount[s]||0)+1;}));
+  const topSymp = Object.entries(sympCount).sort((a,b)=>b[1]-a[1]).slice(0,2).map(e=>e[0]);
+  const lastStart = pd(sorted[sorted.length-1].start);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const nextPeriod = addD(lastStart, avg);
+  const daysUntil = diff(today, nextPeriod);
+  const isRegular = cycles.length >= 3 && Math.max(...cycles)-Math.min(...cycles) <= 4;
+
+  // Panggil Claude API untuk insight
+  const isEn = currentLang === 'en';
+  const prompt = isEn
+    ? `You are a menstrual health assistant. Based on this cycle data, give 3 SHORT personalized insights (max 25 words each). Data: average cycle ${avg} days, trend ${trend>0?'getting longer':trend<0?'getting shorter':'stable'}, average period duration ${avgDur} days, cycle regularity: ${isRegular?'regular':'irregular'}, days until next period: ${daysUntil}, common symptoms: ${topSymp.join(', ')||'none'}. Format: JSON array of objects with "icon" (single emoji) and "text" (insight in English). Only return valid JSON, no markdown.`
+    : `Kamu adalah asisten kesehatan menstruasi. Berdasarkan data siklus ini, berikan 3 insight singkat yang personal (maks 25 kata masing-masing). Data: rata-rata siklus ${avg} hari, tren ${trend>0?'makin panjang':trend<0?'makin pendek':'stabil'}, durasi haid rata-rata ${avgDur} hari, keteraturan siklus: ${isRegular?'teratur':'tidak teratur'}, hari menuju haid berikutnya: ${daysUntil}, gejala umum: ${topSymp.join(', ')||'tidak ada'}. Format: JSON array of objects dengan "icon" (satu emoji) dan "text" (insight dalam Bahasa Indonesia). Kembalikan JSON valid saja, tanpa markdown.`;
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 400,
+      messages: [{ role: 'user', content: prompt }]
+    })
+  });
+
+  if(!response.ok) throw new Error('API error');
+  const data = await response.json();
+  const text = data.content?.map(c=>c.text||'').join('').trim();
+  const clean = text.replace(/```json|```/g,'').trim();
+  return JSON.parse(clean);
 }
 
 // ==================== MANUAL UPDATE CHECK ====================
@@ -1877,6 +2157,18 @@ function showConfigError(){
       </div>
     </div>`;
 }
+
+// Load dark mode & language ASAP (sebelum login, agar splash pun sudah sesuai tema)
+(function earlyLoad(){
+  const dark = localStorage.getItem('siklusku_dark');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if(dark === '1' || (dark === null && prefersDark)){
+    document.documentElement.setAttribute('data-theme','dark');
+    document.querySelector('meta[name="theme-color"]').content = '#1a0d14';
+  }
+  const lang = localStorage.getItem('siklusku_lang');
+  if(lang) currentLang = lang;
+})();
 
 init();
 </script>
